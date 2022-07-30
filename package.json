@@ -1,0 +1,25 @@
+{
+  "name": "strapi-plugin-init-admin-user",
+  "version": "0.1.0",
+  "description": "Creates a strapi admin user on startup. Simplifies working with multiple strapi environments.",
+  "strapi": {
+    "name": "strapi-plugin-init-admin-user",
+    "description": "Creates a strapi admin user on startup. Simplifies working with multiple strapi environments.",
+    "kind": "plugin",
+    "displayName": "Strapi Plugin Init Admin User"
+  },
+  "dependencies": {},
+  "author": {
+    "name": "minzig (https://github.com/minzig)"
+  },
+  "maintainers": [
+    {
+      "name": "minzig (https://github.com/minzig)"
+    }
+  ],
+  "engines": {
+    "node": ">=14.19.0 <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
