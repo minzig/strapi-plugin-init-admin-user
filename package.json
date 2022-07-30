@@ -21,5 +21,25 @@
     "node": ">=14.19.0 <=16.x.x",
     "npm": ">=6.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minzig/strapi-plugin-init-admin-user"
+  },
+  "bugs": {
+    "url": "https://github.com/minzig/strapi-plugin-init-admin-user/issues"
+  },
+  "keywords": [
+    "strapi",
+    "plugin",
+    "initialize",
+    "admin",
+    "init admin",
+    "bootstrap",
+    "strapi admin plugin",
+    "strapi-plugin",
+    "strapi-admin",
+    "init-admin",
+    "minzig"
+  ],
   "license": "MIT"
 }
