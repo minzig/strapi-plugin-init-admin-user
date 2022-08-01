@@ -9,10 +9,12 @@ module.exports = {
 
     if (!superAdminRole) {
       superAdminRole = await strapi.db.query("admin::role").create({
-        name: "Super Admin",
-        code: "strapi-super-admin",
-        description:
-          "Super Admins can access and manage all features and settings.",
+        data: {
+          name: "Super Admin",
+          code: "strapi-super-admin",
+          description:
+            "Super Admins can access and manage all features and settings.",
+        }
       });
     }
 
