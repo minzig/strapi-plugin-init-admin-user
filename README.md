@@ -51,7 +51,8 @@ Leave a '**Thank You**' with a ⭐️ on [Github](https://github.com/minzig/stra
 ---
 ## Links
 [Plugin on Github](https://github.com/minzig/strapi-plugin-init-admin-user)   
-[Plugin on NPM](https://www.npmjs.com/package/strapi-plugin-init-admin-user)  
+[Plugin on NPM](https://www.npmjs.com/package/strapi-plugin-init-admin-user) 
+[Plugin on Strapi Marketplace](https://market.strapi.io/plugins/strapi-plugin-init-admin-user)
 
 ---
 ## License
