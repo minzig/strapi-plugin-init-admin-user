@@ -22,10 +22,10 @@ module.exports = {
   },
   initAdminData(env) {
     return {
-      username: env.INIT_ADMIN_USERNAME || 'admin',
+      username: env.INIT_ADMIN_USERNAME || '',
       password: env.INIT_ADMIN_PASSWORD || 'admin',
       firstname: env.INIT_ADMIN_FIRSTNAME || 'Admin',
-      lastname: env.INIT_ADMIN_LASTNAME || 'Admin',
+      lastname: env.INIT_ADMIN_LASTNAME || '',
       email: env.INIT_ADMIN_EMAIL || 'admin@init-strapi-admin.strapi.io',
       blocked: false,
       isActive: true,
