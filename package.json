@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-init-admin-user",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Creates a strapi admin user on startup. Simplifies working with multiple strapi environments.",
   "strapi": {
     "name": "strapi-plugin-init-admin-user",
