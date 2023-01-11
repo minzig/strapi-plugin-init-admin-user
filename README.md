@@ -6,6 +6,11 @@ Creates a strapi admin user on startup. Simplifies working with multiple strapi 
 
 ---
 
+## Latest Changes  
+January/11/2023: Updated & tested for strapi (v.4.5.5). Added support for NodeJs 18.x.x.  
+
+---
+
 ## Installation 
 Add `strapi-plugin-init-admin-user` to your strapi (**v4!**).
 
