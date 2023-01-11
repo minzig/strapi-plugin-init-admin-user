@@ -7,7 +7,9 @@ Creates a strapi admin user on startup. Simplifies working with multiple strapi 
 ---
 
 ## Latest Changes  
-January/11/2023: Updated & tested for strapi (v.4.5.5). Added support for NodeJs 18.x.x.  
+January/11/2023: Updated & tested for strapi (v.4.5.5). Added support for NodeJs `18.x.x`.  
+
+December/11/2022: Allow `INIT_ADMIN` to be a `JSON`-String to minimize struggling with multiple environment variables.  
 
 ---
 
@@ -33,11 +35,18 @@ INIT_ADMIN_LASTNAME=Admin
 INIT_ADMIN_EMAIL=admin@init-strapi-admin.strapi.io
 ```
 
-If you decide to also use this plugin **outside of `development`-mode** you also **need to add** the following environment variable.
+It is also possible to use `INIT_ADMIN` as **JSON-String** instead of the environment variables above.
+```
+INIT_ADMIN='{"username": "admin", "password": "admin", "firstname": "Admin", "lastname": "Admin", "email": "admin@init-strapi-admin.strapi.io"}'
+```
+
+If you decide to also use this plugin **outside of `development`-mode** you also **need to add** the following environment variable (or use `INIT_ADMIN` as JSON-String).
 
 ```
 INIT_ADMIN=true
 ```
+
+
 ---
 ## Usage
 After installing the plugin and creating your environment variables start your strapi (locally: `npm run develop`) and watch out for the `info`-log:
