@@ -1,5 +1,11 @@
 module.exports = {
   async getSuperAdminRole() {
+    try {
+      await strapi.admin.services.role.createRolesIfNoneExist();
+    } catch (e) {
+      strapi.log.error(`Couldn't check for & create existing roles.`, e);
+    }
+    
     let superAdminRole = await strapi.db.query("admin::role").findOne({
       select: [],
       where: { code: "strapi-super-admin" },
@@ -21,6 +27,15 @@ module.exports = {
     return superAdminRole;
   },
   initAdminData(env) {
+    const useJsonData = (initAdminString) => {
+      let adminData = {};
+      try {
+        adminData = JSON.parse(initAdminString)
+      } catch (e) {
+        strapi.log.error(`Couldn't parse adminData from INIT_ADMIN.`, e);
+      }
+      return adminData;
+    }
     return {
       username: env.INIT_ADMIN_USERNAME || 'admin',
       password: env.INIT_ADMIN_PASSWORD || 'admin',
@@ -29,6 +44,9 @@ module.exports = {
       email: env.INIT_ADMIN_EMAIL || 'admin@init-strapi-admin.strapi.io',
       blocked: false,
       isActive: true,
+      ...(env.INIT_ADMIN.includes('{"') && {
+        ...useJsonData(env.INIT_ADMIN)
+      })
     }
   }
 }
