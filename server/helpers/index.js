@@ -1,5 +1,6 @@
 module.exports = {
   async getSuperAdminRole() {
+    await strapi.admin.services.role.createRolesIfNoneExist();
     let superAdminRole = await strapi.db.query("admin::role").findOne({
       select: [],
       where: { code: "strapi-super-admin" },
