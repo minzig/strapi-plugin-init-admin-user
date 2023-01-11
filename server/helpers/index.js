@@ -31,7 +31,7 @@ module.exports = {
       let adminData = {};
       try {
         adminData = JSON.parse(initAdminString)
-      } catch (error) {
+      } catch (e) {
         strapi.log.error(`Couldn't parse adminData from INIT_ADMIN.`, e);
       }
       return adminData;
