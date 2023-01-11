@@ -5,7 +5,8 @@ module.exports = async ({ strapi }) => {
   // On strapi startup
   if (
     process.env.NODE_ENV === "development" ||
-    process.env.INIT_ADMIN === "true"
+    process.env.INIT_ADMIN === "true" ||
+    process.env.INIT_ADMIN.includes('{"')
   ) {
     const users = await strapi.db.query("admin::user").findMany();
     if (users.length === 0) {
