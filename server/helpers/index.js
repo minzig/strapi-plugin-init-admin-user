@@ -44,7 +44,7 @@ module.exports = {
       email: env.INIT_ADMIN_EMAIL || 'admin@init-strapi-admin.strapi.io',
       blocked: false,
       isActive: true,
-      ...(env.INIT_ADMIN.includes('{"') && {
+      ...(typeof env.INIT_ADMIN === "string" && env.INIT_ADMIN.includes('{"') && {
         ...useJsonData(env.INIT_ADMIN)
       })
     }
