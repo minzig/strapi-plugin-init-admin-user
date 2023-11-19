@@ -7,7 +7,7 @@ Creates a strapi admin user on startup. Simplifies working with multiple strapi 
 ---
 
 ## Latest Changes 
-November/19/2023: Updated & tested for strapi (v.`4.15.5``). Added support for NodeJs `20.x.x`.  
+November/19/2023: Updated & tested for strapi (v.`4.15.5`). Added support for NodeJs `20.x.x`.  
 
 September/02/2023: Tested for Strapi (v.`4.13.1`).  
 
