@@ -7,11 +7,13 @@ Creates a strapi admin user on startup. Simplifies working with multiple strapi 
 ---
 
 ## Latest Changes 
+November/19/2023: Updated & tested for strapi (v.`4.15.5``). Added support for NodeJs `20.x.x`.  
+
 September/02/2023: Tested for Strapi (v.`4.13.1`).  
 
 February/10/2023: Small adjustments in case INIT_ADMIN is not a string.
 
-January/11/2023: Updated & tested for strapi (v.`4.5.5``). Added support for NodeJs `18.x.x`.  
+January/11/2023: Updated & tested for strapi (v.`4.5.5`). Added support for NodeJs `18.x.x`.  
 
 December/11/2022: Allow `INIT_ADMIN` to be a `JSON`-String to minimize struggling with multiple environment variables.  
 
