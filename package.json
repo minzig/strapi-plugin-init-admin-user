@@ -1,33 +1,7 @@
 {
   "name": "strapi-plugin-init-admin-user",
-  "version": "0.2.3",
+  "version": "2.0.0",
   "description": "Creates a strapi admin user on startup. Simplifies working with multiple strapi environments.",
-  "strapi": {
-    "name": "strapi-plugin-init-admin-user",
-    "description": "Creates a strapi admin user on startup. Simplifies working with multiple strapi environments.",
-    "kind": "plugin",
-    "displayName": "Strapi Plugin Init Admin User"
-  },
-  "dependencies": {},
-  "author": {
-    "name": "minzig (https://github.com/minzig)"
-  },
-  "maintainers": [
-    {
-      "name": "minzig (https://github.com/minzig)"
-    }
-  ],
-  "engines": {
-    "node": ">=14.19.0 <=20.x.x",
-    "npm": ">=6.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/minzig/strapi-plugin-init-admin-user"
-  },
-  "bugs": {
-    "url": "https://github.com/minzig/strapi-plugin-init-admin-user/issues"
-  },
   "keywords": [
     "strapi",
     "plugin",
@@ -41,5 +15,79 @@
     "init-admin",
     "minzig"
   ],
-  "license": "MIT"
+  "homepage": "https://github.com/minzig/strapi-plugin-init-admin-user#readme",
+  "bugs": {
+    "url": "https://github.com/minzig/strapi-plugin-init-admin-user/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minzig/strapi-plugin-init-admin-user.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "minzig (https://github.com/minzig)"
+  },
+  "maintainers": [
+    {
+      "name": "minzig (https://github.com/minzig)"
+    }
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-server": {
+      "types": "./dist/server/src/index.d.ts",
+      "source": "./server/src/index.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "strapi-plugin build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "prepare": "husky",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p server/tsconfig.json --noEmit",
+    "verify": "strapi-plugin verify",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@strapi/sdk-plugin": "^6",
+    "@strapi/strapi": "^5",
+    "@strapi/typescript-utils": "^5",
+    "@types/node": "^26.6.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "oxlint": "^1.86.0",
+    "prettier": "^3.9.9",
+    "prettier-plugin-packagejson": "^3.0.2",
+    "prettier-plugin-sh": "^0.20.2",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^5.0.0"
+  },
+  "packageManager": "bun@1.4.2",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=6.0.0"
+  },
+  "strapi": {
+    "kind": "plugin",
+    "name": "strapi-plugin-init-admin-user",
+    "displayName": "Strapi Plugin Init Admin User",
+    "description": "Creates a strapi admin user on startup. Simplifies working with multiple strapi environments."
+  }
 }

@@ -1,83 +1,141 @@
 # strapi-plugin-init-admin-user
 
-Creates a strapi admin user on startup. Simplifies working with multiple strapi environments.  
+Creates a Strapi admin user on startup. Simplifies working with multiple Strapi environments.
 
-<img src="https://raw.githubusercontent.com/minzig/strapi-plugin-init-admin-user/main/public/strapi-plugin-init-admin-user-env.png" alt="Init Admin Example Variables" />
+<img src="docs/images/strapi-plugin-init-admin-user-env.png" alt="Init Admin Example Variables" />
 
----
+## Compatibility
 
-## Latest Changes 
-November/19/2023: Updated & tested for strapi (v.`4.15.5`). Added support for NodeJs `20.x.x`.  
-
-September/02/2023: Tested for Strapi (v.`4.13.1`).  
-
-February/10/2023: Small adjustments in case INIT_ADMIN is not a string.
-
-January/11/2023: Updated & tested for strapi (v.`4.5.5`). Added support for NodeJs `18.x.x`.  
-
-December/11/2022: Allow `INIT_ADMIN` to be a `JSON`-String to minimize struggling with multiple environment variables.  
-
----
-
-## Installation 
-Add `strapi-plugin-init-admin-user` to your strapi (**v4!**).
+| Plugin | Strapi | Node    |
+| ------ | ------ | ------- |
+| 2.x    | v5     | 20+     |
+| 0.2.x  | v4     | 14 - 20 |
 
 ```bash
-# npm:
+# Strapi v5
 npm install strapi-plugin-init-admin-user
+
+# Strapi v4
+npm install strapi-plugin-init-admin-user@0.2.3
 ```
 
-```bash
-# yarn:
-yarn add strapi-plugin-init-admin-user
-```
+## Quick start
 
-Create these environment variables with your initial values.
+Set the environment variables with your initial values and start Strapi (`npm run develop`):
+
 ```
 INIT_ADMIN_USERNAME=admin
-INIT_ADMIN_PASSWORD=admin
+INIT_ADMIN_PASSWORD=Admin1234
 INIT_ADMIN_FIRSTNAME=Admin
 INIT_ADMIN_LASTNAME=Admin
 INIT_ADMIN_EMAIL=admin@init-strapi-admin.strapi.io
 ```
 
-It is also possible to use `INIT_ADMIN` as **JSON-String** instead of the environment variables above.
+You can use `INIT_ADMIN` as a **JSON string** instead of the variables above. Extra keys are passed through to the created user.
+
 ```
-INIT_ADMIN='{"username": "admin", "password": "admin", "firstname": "Admin", "lastname": "Admin", "email": "admin@init-strapi-admin.strapi.io"}'
+INIT_ADMIN='{"username": "admin", "password": "Admin1234", "firstname": "Admin", "lastname": "Admin", "email": "admin@init-strapi-admin.strapi.io"}'
 ```
 
-If you decide to also use this plugin **outside of `development`-mode** you also **need to add** the following environment variable (or use `INIT_ADMIN` as JSON-String).
+By default the plugin only runs in `development`. To run it in other environments set the following (or use `INIT_ADMIN` as a JSON string):
 
 ```
 INIT_ADMIN=true
 ```
 
+Watch for the `info` log:
 
----
-## Usage
-After installing the plugin and creating your environment variables start your strapi (locally: `npm run develop`) and watch out for the `info`-log:
 > Created admin (E-Mail: admin@init-strapi-admin.strapi.io, Password: [INIT_ADMIN_PASSWORD]).
 
-**Note:** By default the plugin will only create an **initial** admin-user if there is **no existing user** in your strapi application!
+**Note:** The first admin is only created if there is **no existing admin user** in your Strapi application.
 
-<img src="https://raw.githubusercontent.com/minzig/strapi-plugin-init-admin-user/main/public/strapi-plugin-init-admin-user-infolog.png" alt="Success Notification after Admin Creation on Startup" />  
+<img src="docs/images/strapi-plugin-init-admin-user-infolog.png" alt="Success Notification after Admin Creation on Startup" />
 
-<img src="https://raw.githubusercontent.com/minzig/strapi-plugin-init-admin-user/main/public/strapi-plugin-init-admin-user-result.png" alt="Init Admin Result in Strapi" />
+<img src="docs/images/strapi-plugin-init-admin-user-result.png" alt="Init Admin Result in Strapi" />
 
----
+## Configuration
+
+Everything above also works from `config/plugins.ts`. Values set there win over the environment variables.
+
+```ts
+export default ({ env }) => ({
+  'strapi-plugin-init-admin-user': {
+    enabled: true,
+    config: {
+      // 'auto' (default): run in development, or when INIT_ADMIN is set
+      // 'always': run in every environment, 'never': disable
+      mode: 'auto',
+
+      // the first admin, created only when there are no admin users yet
+      admin: {
+        email: env('INIT_ADMIN_EMAIL', 'admin@example.com'),
+        password: env('INIT_ADMIN_PASSWORD'),
+        firstname: 'Admin',
+        lastname: 'Admin',
+      },
+
+      // roles are created first, and only if they don't exist yet (no permissions are assigned)
+      roles: [{ name: 'QA', code: 'qa', description: 'Quality assurance' }],
+
+      // more admins, created when no admin with that email exists
+      // `roles` is required, and takes role codes or names
+      admins: [
+        {
+          email: 'editor@example.com',
+          firstname: 'Ed',
+          password: 'Editor1234',
+          roles: ['strapi-editor'],
+        },
+      ],
+
+      // content API tokens, created when no token with that name exists
+      apiTokens: [{ name: 'ci', type: 'read-only' }],
+    },
+  },
+});
+```
+
+`admins`, `roles` and `apiTokens` can also be provided as JSON arrays through `INIT_ADMINS`, `INIT_ROLES` and `INIT_API_TOKENS`.
+
+### Secrets from files
+
+Every `INIT_ADMIN_*` variable (and `INIT_ADMINS`, `INIT_ROLES`, `INIT_API_TOKENS`) can be read from a file by appending `_FILE`. This works with Docker and Kubernetes secrets:
+
+```
+INIT_ADMIN_PASSWORD_FILE=/run/secrets/strapi_admin_password
+```
+
+### API tokens
+
+Without an `accessKey` the generated token is printed **once** in the log. Setting `accessKey` stores your own value instead. This relies on how Strapi stores token keys internally, so test it with your Strapi version before depending on it.
+
+## Security
+
+- The defaults (`admin` / `admin`) are only meant for local development. The plugin logs a warning when they are used outside `development`.
+- It also warns when the password doesn't meet Strapi's password policy (8+ characters, a lowercase letter, an uppercase letter and a number).
+- Passwords are never logged.
+- `admins` and `roles` are re-created on every start if you delete them. Remove them from the configuration once you no longer need them.
+
+## Upgrading from 0.x
+
+- 2.x supports Strapi v5 only. Stay on `strapi-plugin-init-admin-user@0.2.3` for Strapi v4.
+- The environment variables are unchanged.
+- The default `admin` password is still accepted, but now logs a warning.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Support
+
 Leave a '**Thank You**' with a ⭐️ on [Github](https://github.com/minzig/strapi-plugin-init-admin-user) and have a nice day!
 
----
 ## Links
-[Plugin on Github](https://github.com/minzig/strapi-plugin-init-admin-user)   
+
+[Plugin on Github](https://github.com/minzig/strapi-plugin-init-admin-user)  
 [Plugin on NPM](https://www.npmjs.com/package/strapi-plugin-init-admin-user)  
 [Plugin on Strapi Marketplace](https://market.strapi.io/plugins/strapi-plugin-init-admin-user)
 
----
 ## License
-[MIT License](LICENSE.md) - Created by [minzig](https://github.com/minzig)🍃
 
-
-
-
+[MIT License](LICENSE) - Created by [minzig](https://github.com/minzig)🍃
